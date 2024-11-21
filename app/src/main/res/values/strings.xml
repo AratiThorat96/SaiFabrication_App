@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Saifabrication</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="design_image">Design Image</string>
+    <string name="close_activity">Close</string>
+    <string name="gallery_image">Gallery Image</string>
+
+
+</resources>

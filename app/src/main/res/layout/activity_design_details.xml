@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DesignDetailsActivity"
+    android:padding="16dp"
+    tools:ignore="ExtraText">
+
+    <ImageView
+        android:id="@+id/closeButton"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/arrow_circle_left"
+        tools:ignore="MissingConstraints" /> <!-- Replace with your cross icon -->
+    android:contentDescription="@string/close_activity"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    android:padding="4dp"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_margin="8dp" />
+
+    <!-- ImageView for Design Image -->
+    <ImageView
+        android:id="@+id/detailImageView"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="16dp" /> <!-- Adjusted height for better appearance -->
+    android:scaleType="centerCrop"
+    android:contentDescription="@string/design_image"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toTopOf="@id/designNameTextView" />
+
+    <!-- TextView for Design Name -->
+    <TextView
+        android:id="@+id/designNameTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:text="Design Name"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/detailImageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center" />
+
+    <!-- TextView for Design Material -->
+    <TextView
+        android:id="@+id/designMaterialTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Material: Iron"
+        android:textSize="16sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/designNameTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center" />
+
+    <!-- TextView for Design Price -->
+    <TextView
+        android:id="@+id/designPriceTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Price: ₹1000"
+        android:textSize="16sp"
+        android:textColor="@android:color/holo_green_dark"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/designMaterialTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

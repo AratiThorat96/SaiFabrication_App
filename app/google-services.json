@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "40647540228",
+    "project_id": "saifabricationapp",
+    "storage_bucket": "saifabricationapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40647540228:android:44d67752a226877e267f51",
+        "android_client_info": {
+          "package_name": "com.example.saifabrication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMzLKNVSOii2uKCw5P9ATraWoCIrehKak"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
