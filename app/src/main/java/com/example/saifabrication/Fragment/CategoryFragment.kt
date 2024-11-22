@@ -19,9 +19,9 @@ class CategoryFragment : Fragment() {
     private lateinit var buttonContainer: LinearLayout // Container for buttons
     private val imageMap = mapOf(
         "Windows" to listOf("win2", "banner1", "win3", "win4", "win5", "win6", "win7", "win8"),
-        "Doors" to listOf("door1", "door2", "door3"),
-        "Gates" to listOf("gate1", "gate2", "gate3"),
-        "Stairs" to listOf("stair1", "stair2", "stair3")
+        "Doors" to listOf("d1", "d2", "d3","d4","d5","d6","d7","d8","d9","d10"),
+        "Gates" to listOf("g1", "g2", "g3","g4","g5","g6","g7","g8","g9","g10"),
+        "Stairs" to listOf("s1", "s2", "s3","s4","s5","s6","s7","s8","s9","s10")
     )
 
     @SuppressLint("MissingInflatedId")
@@ -89,13 +89,11 @@ class CategoryFragment : Fragment() {
     }
 
     private fun showFullImageDialog(imageName: String) {
-        val dialog = FullImageDialogFragment(imageName) { isSave, image ->
-            if (isSave as Boolean) {
-                // Handle the saved image
-            }
-        }
+        // Use newInstance() to create the fragment and pass the image name
+        val dialog = FullImageDialogFragment.newInstance(imageName) // Pass imageName using newInstance
         dialog.show(childFragmentManager, "FullImageDialogFragment")
     }
+
 
     // Extension function to convert dp to px
     private fun Int.dpToPx(): Int {
