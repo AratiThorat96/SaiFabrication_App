@@ -40,7 +40,7 @@ class FullImageDialogFragment : DialogFragment() {
 
         val imageView: ImageView = view.findViewById(R.id.full_image_view)
         val btnClose: Button = view.findViewById(R.id.btn_close)
-        val btnSave: Button = view.findViewById(R.id.btn_save)
+
 
         // Dynamically load the image using imageName
         val imageResourceId = requireContext().resources.getIdentifier(imageName, "drawable", requireContext().packageName)
