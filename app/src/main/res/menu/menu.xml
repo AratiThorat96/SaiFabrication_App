@@ -5,9 +5,6 @@
         android:icon="@drawable/home_02"
         android:id="@+id/homeFragment"/>
 
-    <item android:title="Search"
-        android:icon="@drawable/icon_search"
-        android:id="@+id/searchFragment"/>
 
     <item android:title="Category"
         android:icon="@drawable/list"
