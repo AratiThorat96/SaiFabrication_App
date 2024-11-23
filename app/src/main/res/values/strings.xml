@@ -5,6 +5,12 @@
     <string name="design_image">Design Image</string>
     <string name="close_activity">Close</string>
     <string name="gallery_image">Gallery Image</string>
+        <!-- Other string resources -->
+
+    <string name="full_image">Full Image</string>
+
+
+
 
 
 </resources>

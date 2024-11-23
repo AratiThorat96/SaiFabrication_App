@@ -62,6 +62,7 @@ dependencies {
     annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
     implementation ("androidx.recyclerview:recyclerview:1.3.1")
     implementation ("androidx.appcompat:appcompat:1.6.1")
+    implementation ("com.google.firebase:firebase-storage:21.0.1")
 
 
 

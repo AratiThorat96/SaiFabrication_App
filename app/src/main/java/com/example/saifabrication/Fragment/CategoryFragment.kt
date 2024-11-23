@@ -1,5 +1,6 @@
 package com.example.saifabrication.Fragment
 
+import ImageAdapter
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,22 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.saifabrication.ImageAdapter
 import com.example.saifabrication.R
+import com.google.firebase.database.*
 
 class CategoryFragment : Fragment() {
 
     private lateinit var galleryRecyclerView: RecyclerView
-    private lateinit var buttonContainer: LinearLayout // Container for buttons
-    private var selectedButton: Button? = null // To track the selected button
-    private val imageMap = mapOf(
-        "Windows" to listOf("win2", "banner1", "win3", "win4", "win5", "win6", "win7", "win8"),
-        "Doors" to listOf("d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10"),
-        "Gates" to listOf("g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8", "g9", "g10"),
-        "Stairs" to listOf("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10")
-    )
+    private lateinit var buttonContainer: LinearLayout
+    private var selectedButton: Button? = null
+    private lateinit var databaseReference: DatabaseReference
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -35,8 +32,12 @@ class CategoryFragment : Fragment() {
         galleryRecyclerView = view.findViewById(R.id.recycler_view_gallery)
         galleryRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
 
-        buttonContainer = view.findViewById(R.id.button_container) // Get the container layout
+        buttonContainer = view.findViewById(R.id.button_container)
         setupCategoryButtons(view)
+
+        // Initialize Firebase Realtime Database reference
+        databaseReference = FirebaseDatabase.getInstance().reference.child("Categories")
+
         return view
     }
 
@@ -50,35 +51,26 @@ class CategoryFragment : Fragment() {
 
         buttons.forEach { button ->
             button.setOnClickListener {
-                // Highlight the clicked button and reset others
                 highlightSelectedButton(button, buttons)
-
-                // Align buttons in a horizontal row at the top
                 alignButtonsToTop(buttons)
-
-                // Show gallery for the clicked category
-                showGallery(button.text.toString())
+                fetchImagesFromFirebase(button.text.toString()) // Fetch images for the selected category
             }
         }
     }
 
     private fun highlightSelectedButton(button: Button, buttons: List<Button>) {
-        // Reset all buttons to their original green color
         buttons.forEach { it.setBackgroundResource(R.drawable.rounded_button) }
-
-        // Highlight the current button with light yellow
         button.setBackgroundResource(R.drawable.light_yellow_button)
-        selectedButton = button // Update the selected button
+        selectedButton = button
     }
 
     private fun alignButtonsToTop(buttons: List<Button>) {
-        // Change the layout of the button container to horizontal
         buttonContainer.orientation = LinearLayout.HORIZONTAL
         buttonContainer.layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT
 
         buttons.forEach { button ->
             val params = button.layoutParams as LinearLayout.LayoutParams
-            params.width = 0 // Distribute buttons evenly
+            params.width = 0
             params.weight = 1f
             params.height = LinearLayout.LayoutParams.WRAP_CONTENT
             params.marginStart = 8.dpToPx()
@@ -87,28 +79,44 @@ class CategoryFragment : Fragment() {
         }
     }
 
-    private fun showGallery(category: String) {
-        // Load images for the selected category into the RecyclerView
-        val images = imageMap[category] ?: emptyList()
+    private fun fetchImagesFromFirebase(category: String) {
+        databaseReference.child(category).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val images = mutableListOf<String>()
+                for (data in snapshot.children) {
+                    val imageUrl = data.child("url").getValue(String::class.java)
+                    imageUrl?.let { images.add(it) }
+                }
+                if (images.isEmpty()) {
+                    Toast.makeText(context, "No images available for this category", Toast.LENGTH_SHORT).show()
+                } else {
+                    showGallery(images)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(context, "Failed to load images: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun showGallery(images: List<String>) {
         galleryRecyclerView.visibility = View.VISIBLE
-        galleryRecyclerView.adapter = ImageAdapter(images) { imageName ->
-            showFullImageDialog(imageName) // Pass the image name to the dialog
+        galleryRecyclerView.adapter = ImageAdapter(images) { imageUrl ->
+            showFullImageDialog(imageUrl) // Pass the image URL to the dialog
         }
 
-        // Set RecyclerView to fill the remaining space
         val params = galleryRecyclerView.layoutParams as LinearLayout.LayoutParams
         params.height = 0
         params.weight = 1f
         galleryRecyclerView.layoutParams = params
     }
 
-    private fun showFullImageDialog(imageName: String) {
-        // Use newInstance() to create the fragment and pass the image name
-        val dialog = FullImageDialogFragment.newInstance(imageName) // Pass imageName using newInstance
+    private fun showFullImageDialog(imageUrl: String) {
+        val dialog = FullImageDialogFragment.newInstance(imageUrl) // Pass imageUrl using newInstance
         dialog.show(childFragmentManager, "FullImageDialogFragment")
     }
 
-    // Extension function to convert dp to px
     private fun Int.dpToPx(): Int {
         return (this * resources.displayMetrics.density).toInt()
     }
