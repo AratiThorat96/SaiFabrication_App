@@ -17,11 +17,12 @@ class CategoryFragment : Fragment() {
 
     private lateinit var galleryRecyclerView: RecyclerView
     private lateinit var buttonContainer: LinearLayout // Container for buttons
+    private var selectedButton: Button? = null // To track the selected button
     private val imageMap = mapOf(
         "Windows" to listOf("win2", "banner1", "win3", "win4", "win5", "win6", "win7", "win8"),
-        "Doors" to listOf("d1", "d2", "d3","d4","d5","d6","d7","d8","d9","d10"),
-        "Gates" to listOf("g1", "g2", "g3","g4","g5","g6","g7","g8","g9","g10"),
-        "Stairs" to listOf("s1", "s2", "s3","s4","s5","s6","s7","s8","s9","s10")
+        "Doors" to listOf("d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10"),
+        "Gates" to listOf("g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8", "g9", "g10"),
+        "Stairs" to listOf("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10")
     )
 
     @SuppressLint("MissingInflatedId")
@@ -49,12 +50,25 @@ class CategoryFragment : Fragment() {
 
         buttons.forEach { button ->
             button.setOnClickListener {
+                // Highlight the clicked button and reset others
+                highlightSelectedButton(button, buttons)
+
                 // Align buttons in a horizontal row at the top
                 alignButtonsToTop(buttons)
+
                 // Show gallery for the clicked category
                 showGallery(button.text.toString())
             }
         }
+    }
+
+    private fun highlightSelectedButton(button: Button, buttons: List<Button>) {
+        // Reset all buttons to their original green color
+        buttons.forEach { it.setBackgroundResource(R.drawable.rounded_button) }
+
+        // Highlight the current button with light yellow
+        button.setBackgroundResource(R.drawable.light_yellow_button)
+        selectedButton = button // Update the selected button
     }
 
     private fun alignButtonsToTop(buttons: List<Button>) {
@@ -93,7 +107,6 @@ class CategoryFragment : Fragment() {
         val dialog = FullImageDialogFragment.newInstance(imageName) // Pass imageName using newInstance
         dialog.show(childFragmentManager, "FullImageDialogFragment")
     }
-
 
     // Extension function to convert dp to px
     private fun Int.dpToPx(): Int {
