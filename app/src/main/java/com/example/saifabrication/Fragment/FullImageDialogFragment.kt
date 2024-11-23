@@ -7,13 +7,12 @@ import androidx.fragment.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import com.bumptech.glide.Glide
 import com.example.saifabrication.R
 
 class FullImageDialogFragment : DialogFragment() {
 
     private lateinit var imageName: String
-
 
     companion object {
         private const val ARG_IMAGE_NAME = "image_name"
@@ -41,18 +40,27 @@ class FullImageDialogFragment : DialogFragment() {
         val imageView: ImageView = view.findViewById(R.id.full_image_view)
         val btnClose: Button = view.findViewById(R.id.btn_close)
 
+        // Dynamically load the image using Glide
+        val imageResourceId = requireContext().resources.getIdentifier(
+            imageName,
+            "drawable",
+            requireContext().packageName
+        )
 
-        // Dynamically load the image using imageName
-        val imageResourceId = requireContext().resources.getIdentifier(imageName, "drawable", requireContext().packageName)
         if (imageResourceId != 0) {
-            imageView.setImageResource(imageResourceId)
+            Glide.with(requireContext())
+                .load(imageResourceId)
+                .fitCenter() // Adjust scaling
+                .into(imageView)
         } else {
-            imageView.setImageResource(R.drawable.placeholder)
+            Glide.with(requireContext())
+                .load(R.drawable.placeholder)
+                .fitCenter()
+                .into(imageView)
         }
 
         // Set button actions
         btnClose.setOnClickListener { dismiss() }
-
 
         return view
     }
