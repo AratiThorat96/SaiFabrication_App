@@ -25,8 +25,8 @@ class HomeFragment : Fragment() {
     private val sliderHandler = Handler()
 
     private val viewPagerImages = listOf(R.drawable.banner1, R.drawable.banner3, R.drawable.winall,R.drawable.banner2) // Replace with actual images
-    private val topDesignImages = listOf(R.drawable.win2, R.drawable.win3, R.drawable.win4,R.drawable.win5, R.drawable.win6, R.drawable.win7,R.drawable.win8,R.drawable.win10)
-    private val newDesignImages = listOf(R.drawable.d1, R.drawable.d2, R.drawable.d7,R.drawable.d6, R.drawable.d10, R.drawable.d9,R.drawable.d1,R.drawable.d9,R.drawable.d6)
+    private val topDesignImages = listOf(R.drawable.winall, R.drawable.banner2, R.drawable.banner3,R.drawable.d3, R.drawable.d7, R.drawable.banner1,R.drawable.d7,R.drawable.d3)
+    private val newDesignImages = listOf(R.drawable.d3, R.drawable.d7, R.drawable.d7,R.drawable.d3, R.drawable.d7, R.drawable.d3,R.drawable.d7,R.drawable.d3,R.drawable.d7)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
